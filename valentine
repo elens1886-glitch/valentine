@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hilda, Be My Valentine 💕</title>
+
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      text-align: center;
+      max-width: 420px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      color: #ff3b6f;
+    }
+
+    p {
+      font-size: 18px;
+    }
+
+    button {
+      padding: 12px 26px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 12px;
+      transition: transform 0.2s;
+    }
+
+    .yes {
+      background-color: #ff3b6f;
+      color: white;
+    }
+
+    .no {
+      background-color: #ddd;
+      position: absolute;
+    }
+
+    #message {
+      margin-top: 25px;
+      font-size: 20px;
+      color: #ff3b6f;
+    }
+
+    .qr {
+      margin-top: 25px;
+    }
+
+    audio {
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body onclick="startMusic()">
+
+  <div class="card">
+    <h1>Hilda 💕</h1>
+
+    <p>
+      From the moment you came into my life,  
+      everything felt brighter 💖
+    </p>
+
+    <p><strong>Will you be my Valentine?</strong></p>
+
+    <button class="yes" onclick="yesClicked()">Yes 💘</button>
+    <button class="no" id="noBtn" onmouseover="moveNo()">No 🙈</button>
+
+    <div id="message"></div>
+
+    <audio id="music" controls>
+      <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="qr">
+      <p>📱 Scan me</p>
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PASTE_YOUR_LINK_HERE"
+        alt="QR Code">
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const music = document.getElementById("music");
+    let scale = 1;
+
+    function moveNo() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      scale -= 0.1;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+      noBtn.style.transform = `scale(${scale})`;
+
+      if (scale <= 0.3) {
+        noBtn.style.display = "none";
+      }
+    }
+
+    function yesClicked() {
+      document.getElementById("message").innerHTML =
+        "YAY!! 💕 I can’t wait to spend Valentine’s Day with you, Hilda 😍";
+
+      launchConfetti();
+    }
+
+    function startMusic() {
+      music.play().catch(() => {});
+    }
+
+    function launchConfetti() {
+      const colors = ["#ff3b6f", "#ff7eb3", "#ffd1dc", "#ff758c"];
+
+      for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.background =
+          colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration =
+          Math.random() * 2 + 2 + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+  </script>
+
+</body>
+</html>
