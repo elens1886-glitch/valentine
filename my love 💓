@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hilda, Be My Valentine 💕</title>
+
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      text-align: center;
+      max-width: 420px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      color: #ff3b6f;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      width: 80%;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 26px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    .yes {
+      background-color: #ff3b6f;
+      color: white;
+    }
+
+    .no {
+      background-color: #ddd;
+      position: absolute;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #ff3b6f;
+      min-height: 60px;
+    }
+
+    .heart {
+      position: fixed;
+      font-size: 20px;
+      top: -10px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body onclick="startMusic()">
+
+  <div class="card" id="card">
+    <h1>💕 Just for You 💕</h1>
+
+    <p>Type your name to unlock</p>
+    <input id="nameInput" placeholder="Your name…" />
+    <br>
+    <button class="yes" onclick="unlock()">Unlock 💖</button>
+  </div>
+
+  <audio id="music">
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+  </audio>
+
+  <script>
+    const card = document.getElementById("card");
+    const music = document.getElementById("music");
+
+    function unlock() {
+      const name = document.getElementById("nameInput").value.toLowerCase();
+      if (name !== "hilda") {
+        alert("This surprise isn’t for you 😌");
+        return;
+      }
+
+      card.innerHTML = `
+        <h1>Hilda 💕</h1>
+        <p id="message"></p>
+        <p><strong>Will you be my Valentine?</strong></p>
+        <button class="yes" onclick="yesClicked()">Yes 💘</button>
+        <button class="no" id="noBtn" onmouseover="moveNo()">No 🙈</button>
+      `;
+
+      typeMessage(
+        "From the moment you came into my life, everything felt warmer, softer… brighter 💖"
+      );
+    }
+
+    function typeMessage(text) {
+      const el = document.getElementById("message");
+      let i = 0;
+      const typing = setInterval(() => {
+        el.textContent += text[i];
+        i++;
+        if (i >= text.length) clearInterval(typing);
+      }, 45);
+    }
+
+    function yesClicked() {
+      document.getElementById("message").textContent =
+        "You just made me the happiest person alive 💕😍";
+
+      launchHearts();
+
+      setTimeout(() => {
+        window.location.href =
+          "https://wa.me/2547XXXXXXXX?text=Yes!%20I%20will%20be%20your%20Valentine%20💕";
+      }, 3000);
+    }
+
+    function moveNo() {
+      const btn = document.getElementById("noBtn");
+      btn.style.left = Math.random() * window.innerWidth + "px";
+      btn.style.top = Math.random() * window.innerHeight + "px";
+    }
+
+    function startMusic() {
+      music.play().catch(() => {});
+    }
+
+    function launchHearts() {
+      for (let i = 0; i < 60; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }
+    }
+  </script>
+
+</body>
+</html>
